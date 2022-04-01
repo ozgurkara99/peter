@@ -23,26 +23,26 @@ class _ImageUploadsState extends State<ImageUploads> {
   File? _photo;
   final ImagePicker _picker = ImagePicker();
 
-  Future imgFromGallery() async {
+  Future imgFromGallery(context) async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       if (pickedFile != null) {
         _photo = File(pickedFile.path);
-        uploadFile();
+        showAlertDialog(context);
       } else {
         print('No image selected.');
       }
     });
   }
 
-  Future imgFromCamera() async {
+  Future imgFromCamera(context) async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
 
     setState(() {
       if (pickedFile != null) {
         _photo = File(pickedFile.path);
-        uploadFile();
+        showAlertDialog(context);
       } else {
         print('No image selected.');
       }
@@ -99,17 +99,17 @@ class _ImageUploadsState extends State<ImageUploads> {
                         borderRadius: BorderRadius.circular(100),
                         child: Image.file(
                           _photo!,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.fitHeight,
+                          width: 200,
+                          height: 200,
+                          fit: BoxFit.fitWidth,
                         ),
                       )
                     : Container(
                         decoration: BoxDecoration(
                             color: Colors.grey[200],
                             borderRadius: BorderRadius.circular(100)),
-                        width: 100,
-                        height: 100,
+                        width: 150,
+                        height: 150,
                         child: Icon(
                           Icons.camera_alt,
                           color: Colors.grey[800],
@@ -134,14 +134,14 @@ class _ImageUploadsState extends State<ImageUploads> {
                     leading: const Icon(Icons.photo_library),
                     title: const Text('Gallery'),
                     onTap: () {
-                      imgFromGallery();
+                      imgFromGallery(context);
                       Navigator.of(context).pop();
                     }),
                 ListTile(
                   leading: const Icon(Icons.photo_camera),
                   title: const Text('Camera'),
                   onTap: () {
-                    imgFromCamera();
+                    imgFromCamera(context);
                     Navigator.of(context).pop();
                   },
                 ),
@@ -149,5 +149,43 @@ class _ImageUploadsState extends State<ImageUploads> {
             ),
           );
         });
+  }
+
+  void showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+        setState(() {
+          _photo = null;
+        });
+      },
+    );
+    Widget okButton = TextButton(
+      child: const Text("Yes"),
+      onPressed: () {
+        uploadFile();
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Warning!"),
+      content: const Text("Would you like to search for this image?"),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
