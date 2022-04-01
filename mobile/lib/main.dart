@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mobile/image_upload.dart';
+import 'package:peter/image_upload.dart';
 import 'firebase_options.dart';
 import 'helpers/all_colors.dart';
 
