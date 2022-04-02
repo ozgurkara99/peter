@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> checkFirebase(isLoggedIn) async {
     checkAuthStatus = await checkAuth();
     if (checkAuthStatus && isLoggedIn) {
-      loadingDialog(context, 1, "feed");
+      loadingDialog(context, 3, "pre-feed");
     }
     //statusText = getAuthVal(checkAuthStatus);
   }
@@ -171,6 +171,8 @@ class _LoginPageState extends State<LoginPage> {
                         await signUp(
                             emailController.text, passwordController.text);
                         await Future.delayed(const Duration(seconds: 2));
+                        showToast(
+                            "Account created successfully");
                       }
                     } else {
                       showToast("Please enter a password and e-mail");
@@ -186,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                   textColor: Colors.white70,
                   child: Text("Forgot Password".toUpperCase()),
                   onPressed: () {
-                    loadingDialog(context, 5, "pre-feed");
+                    loadingDialog(context, 3, "pre-feed");
                   },
                 ),
               ],

@@ -42,7 +42,7 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
   if (next == "pre-feed") {
     cardList = await read_data();
     log("test-feed");
-    Future.delayed(Duration(seconds: time), () {
+    Future.delayed(Duration(seconds: 2), () {
       log(cardList.toString());
     });
   }
@@ -60,13 +60,15 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
           MaterialPageRoute(
               builder: (context) => FeedPage(
                     cardListAll: cardList,
-                  )));
+                sim: false,
+              )));
     } else if (next == "pre-feed") {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => FeedPage(
                     cardListAll: cardList,
+                sim: false,
                   )));
     }
   });

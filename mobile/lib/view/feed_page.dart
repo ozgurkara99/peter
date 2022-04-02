@@ -5,14 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:peter/helpers/toast_controller.dart';
 import 'package:peter/view/loading_dialog.dart';
 import '../helpers/device_details.dart';
 import '../helpers/get_date.dart';
 
 class FeedPage extends StatefulWidget {
   final cardListAll;
+  final sim;
 
-  const FeedPage({Key? key, this.cardListAll}) : super(key: key);
+  const FeedPage({Key? key, this.cardListAll, this.sim}) : super(key: key);
 
   @override
   State<FeedPage> createState() => _FeedPageState();
@@ -67,16 +69,45 @@ class _FeedPageState extends State<FeedPage> {
 
     final date = getDateInString();
 
-    final destination = '$os/$brand/$id';
+    //final destination = '$os/$brand/$id';
+    final destination = 'dog/';
 
     try {
       final ref = firebase_storage.FirebaseStorage.instance
           .ref(destination)
-          .child(date);
+          .child('dogx');
       await ref.putFile(_photo!);
     } catch (e) {
       print('error occured');
     }
+
+    showToast("Image uploaded correctly");
+    setState(() {
+      var q = [];
+      var s = widget.cardListAll;
+      var s_l = <int>[];
+      for (int i = 0; i < 6; i++) {
+        s_l.add(s[i]['similarity']);
+      }
+      s_l.sort((a, b) => b.compareTo(a));
+      print(s_l);
+
+      for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 6; j++) {
+          if (s_l[i] == s[j]['similarity']) {
+            q.add(s[j]);
+          }
+        }
+      }
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FeedPage(
+                    sim: true,
+                    cardListAll: q,
+                  )));
+    });
   }
 
   void showAlertDialog(BuildContext context) {
@@ -231,18 +262,17 @@ class _FeedPageState extends State<FeedPage> {
           SliverList(
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
-              return _buildRooms(context, index, widget.cardListAll);
-            }, childCount: 10),
+              return _buildRooms(
+                  context, index, widget.cardListAll, widget.sim);
+            }, childCount: 6),
           )
         ],
       ),
     );
   }
 
-  Widget _buildRooms(BuildContext context, int index, cardL) {
-    print("sdfdsfg");
+  Widget _buildRooms(BuildContext context, int index, cardL, sim) {
     var room = cardL[index % cardL.length];
-    print(room);
 
     return Container(
       margin: const EdgeInsets.all(20.0),
@@ -311,12 +341,13 @@ class _FeedPageState extends State<FeedPage> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Spacer(),
-                                Text(
-                                  "%${room['similarity'].toString()}",
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                                if (sim == true)
+                                  Text(
+                                    "%${room['similarity'].toString()}",
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                               ],
                             ),
                             const SizedBox(
