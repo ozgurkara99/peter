@@ -8,7 +8,6 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../helpers/device_details.dart';
 import '../helpers/get_date.dart';
 
-
 class FeedPage extends StatefulWidget {
   @override
   State<FeedPage> createState() => _FeedPageState();
@@ -144,6 +143,7 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.teal[100],
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -151,51 +151,63 @@ class _FeedPageState extends State<FeedPage> {
             backgroundColor: Colors.teal,
             leading: IconButton(
               icon: const Icon(
-                Icons.menu,
+                FontAwesomeIcons.user,
                 color: Colors.white,
               ),
               onPressed: () {},
             ),
-            actions: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.photo,
-                    color: Colors.white,
-                    size: 40,
-                  ),
-                  onPressed: () {
-                    showPicker(context);
-                  },
-                ),
-              ),
-            ],
             floating: true,
             flexibleSpace: ListView(
               children: <Widget>[
                 const SizedBox(
-                  height: 70.0,
+                  height: 80.0,
                 ),
-                const Text("Type your Location",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text("Search your Pet using",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0)),
+                    Text(" Peter",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.orange,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0)),
+                  ],
+                ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   padding: EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(40.0)),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: "Bouddha, Kathmandu",
-                      border: InputBorder.none,
-                      icon: IconButton(
-                          onPressed: () {}, icon: Icon(Icons.search)),
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          FontAwesomeIcons.camera,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          showPicker(context);
+                        },
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          FontAwesomeIcons.qrcode,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          showPicker(context);
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -211,7 +223,7 @@ class _FeedPageState extends State<FeedPage> {
           ),
           SliverList(
             delegate:
-            SliverChildBuilderDelegate((BuildContext context, int index) {
+                SliverChildBuilderDelegate((BuildContext context, int index) {
               return _buildRooms(context, index);
             }, childCount: 10),
           )
@@ -224,119 +236,132 @@ class _FeedPageState extends State<FeedPage> {
     var room = rooms[index % rooms.length];
     return Container(
       margin: const EdgeInsets.all(20.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10.0),
-        child: Container(
-          child: Material(
-            elevation: 5.0,
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    Image.network(
-                      room['imageURL'],
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      right: 10,
-                      top: 10,
-                      child: Icon(
-                        Icons.star,
-                        color: Colors.grey.shade800,
-                        size: 20.0,
-                      ),
-                    ),
-                    const Positioned(
-                      right: 8,
-                      top: 8,
-                      child: Icon(
-                        Icons.star_border,
-                        color: Colors.white,
-                        size: 24.0,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 20.0,
-                      right: 5.0,
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        color: Colors.white,
-                        child: Row(
-                          children: [
-                            Text(
-                              room['date'],
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            Icon(
-                              FontAwesomeIcons.clock,
-                              size: 16,
-                              color: primaryTeal,
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                  padding: EdgeInsets.all(16.0),
+      child: Container(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15.0),
+          child: Container(
+            color: Colors.black,
+            padding: EdgeInsets.all(3.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Container(
+                child: Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.circular(5.0),
+                  color: Colors.orange[300],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        room['title'],
-                        style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      Text("Bouddha, Kathmandu"),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      Stack(
                         children: <Widget>[
-                          Icon(
-                            Icons.star,
-                            color: Colors.green,
+                          Image.network(
+                            room['imageURL'],
+                            fit: BoxFit.cover,
                           ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.green,
+                          Positioned(
+                            right: 10,
+                            top: 10,
+                            child: Icon(
+                              Icons.star,
+                              color: Colors.grey.shade800,
+                              size: 20.0,
+                            ),
                           ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.green,
+                          const Positioned(
+                            right: 8,
+                            top: 8,
+                            child: Icon(
+                              Icons.star_border,
+                              color: Colors.white,
+                              size: 24.0,
+                            ),
                           ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.green,
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.green,
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            "(220 reviews)",
-                            style: TextStyle(color: Colors.grey),
+                          Positioned(
+                            bottom: 20.0,
+                            right: 5.0,
+                            child: Container(
+                              padding: EdgeInsets.all(10.0),
+                              color: Colors.white,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    room['date'],
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  SizedBox(
+                                    width: 3,
+                                  ),
+                                  Icon(
+                                    FontAwesomeIcons.clock,
+                                    size: 16,
+                                    color: primaryTeal,
+                                  ),
+                                ],
+                              ),
+                            ),
                           )
                         ],
-                      )
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              room['title'],
+                              style: TextStyle(
+                                  fontSize: 18.0, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              height: 5.0,
+                            ),
+                            const Text("Bouddha, Kathmandu"),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            if (room['vaccinated'])
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: const <Widget>[
+                                  Text(
+                                    "Vaccinated:",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    width: 2.0,
+                                  ),
+                                  Icon(
+                                    FontAwesomeIcons.solidCheckCircle,
+                                    size: 20,
+                                    color: Colors.green,
+                                  ),
+                                ],
+                              ),
+                            if (!room['vaccinated'])
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: const <Widget>[
+                                  Text(
+                                    "Vaccinated:",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    width: 2.0,
+                                  ),
+                                  Icon(
+                                    FontAwesomeIcons.solidTimesCircle,
+                                    size: 20,
+                                    color: Colors.red,
+                                  ),
+                                ],
+                              )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -346,7 +371,7 @@ class _FeedPageState extends State<FeedPage> {
 
   Widget _buildCategories() {
     return Container(
-      height: 100,
+      height: 85,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const <Widget>[
@@ -362,7 +387,7 @@ class _FeedPageState extends State<FeedPage> {
             width: 15.0,
           ),
           Category(
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.pink,
             title: "Cat",
             icon: FontAwesomeIcons.cat,
           ),

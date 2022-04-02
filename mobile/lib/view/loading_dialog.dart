@@ -8,22 +8,24 @@ void loadingDialog(BuildContext context, int time, String next) {
   showDialog(
     context: context,
     barrierDismissible: false,
+  //  barrierColor: Colors.transparent,
     builder: (BuildContext context) {
       return Dialog(
-        child: Container(
-          width: 100,
-          height: 250,
-          child: Column(
-            children: [
-              Image.asset(
-                'assets/images/loading.gif',
-                fit: BoxFit.fitWidth,
-                repeat: ImageRepeat.noRepeat,
-              ),
-              //Text("Loading"),
-            ],
+          child: Container(
+            width: 150,
+            height: 250,
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/images/loading_transparent.gif',
+                  fit: BoxFit.fitWidth,
+                  repeat: ImageRepeat.noRepeat,
+                ),
+                //Text("Loading"),
+              ],
+            ),
           ),
-        ),
+
       );
     },
   );

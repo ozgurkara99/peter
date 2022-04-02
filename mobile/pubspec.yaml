@@ -46,6 +46,8 @@ dependencies:
   fluttertoast: ^8.0.9
   firebase_auth: ^3.3.12
   font_awesome_flutter: ^9.2.0
+  image_cropper: ^1.5.1
+  firebase_database: ^9.0.9
 
 dev_dependencies:
   flutter_test:
