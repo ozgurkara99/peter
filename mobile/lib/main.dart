@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:peter/view/feed.dart';
 import 'package:peter/view/onboarding.dart';
 import 'firebase_options.dart';
 import 'helpers/all_colors.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Peter',
       theme: ThemeData(
         primarySwatch: primaryTeal,
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
         secondaryHeaderColor: Colors.orange,
         hintColor: Colors.orange,
       ),
-      home: OnboardingView(),
+      home: FeedPage(),
     );
   }
 }

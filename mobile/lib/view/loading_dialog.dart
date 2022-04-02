@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peter/view/image_upload.dart';
 
 import 'login_view.dart';
 
@@ -29,8 +30,12 @@ void loadingDialog(BuildContext context, int time, String next) {
     if (next == "none") {
       Navigator.pop(context);
     } else if (next == "login") {
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
     } //pop dialog
+    else if (next == "image") {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => ImageUploads()));
+    }
   });
 }

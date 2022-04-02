@@ -88,7 +88,7 @@ class _ImageUploadsState extends State<ImageUploads> {
           Center(
             child: GestureDetector(
               onTap: () {
-                _showPicker(context);
+                showPicker(context);
               },
               child: CircleAvatar(
                 radius: 100,
@@ -122,7 +122,7 @@ class _ImageUploadsState extends State<ImageUploads> {
     );
   }
 
-  void _showPicker(context) {
+  void showPicker(context) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {

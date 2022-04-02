@@ -1,12 +1,8 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import '../firebase/firebase_auth.dart';
 
 import '../helpers/all_colors.dart';
 import '../helpers/toast_controller.dart';
-import 'image_upload.dart';
 import 'loading_dialog.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,15 +19,10 @@ class _LoginPageState extends State<LoginPage> {
   // Auth status for Firebase
   var checkAuthStatus = false;
 
-  Future<void> checkFirebase() async {
+  Future<void> checkFirebase(isLoggedIn) async {
     checkAuthStatus = await checkAuth();
-    loadingDialog(context, 1,"none");
-    if (checkAuthStatus){
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ImageUploads()),
-      );
+    if (checkAuthStatus && isLoggedIn) {
+      loadingDialog(context, 1, "image");
     }
     //statusText = getAuthVal(checkAuthStatus);
   }
@@ -151,13 +142,10 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () async {
                   if (passwordController.text != "" ||
                       emailController.text != "") {
-                    await signOut();
-                    loadingDialog(context, 1,"none");
                     await signIn(emailController.text, passwordController.text);
                     setState(() {
-                      checkFirebase();
+                      checkFirebase(true);
                     });
-
                   } else {
                     showToast("Please enter a password and e-mail");
                   }
@@ -198,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                   textColor: Colors.white70,
                   child: Text("Forgot Password".toUpperCase()),
                   onPressed: () {
-                    loadingDialog(context, 1,"none");
+                    loadingDialog(context, 1, "none");
                   },
                 ),
               ],
