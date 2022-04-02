@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:peter/view/loading_view.dart';
 
 import 'login_view.dart';
 import 'login_view.dart';
@@ -82,9 +83,9 @@ class _OnboardingViewState extends State<OnboardingView> {
             child: MaterialButton(
               child: const Text("Skip"),
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(builder: (context) => LoadingDog()),
                 );
               },
             ),
@@ -99,9 +100,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                 if (_currentIndex != colors.length - 1) {
                   _controller.next();
                 } else {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    MaterialPageRoute(builder: (context) => LoadingDog()),
                   );
                 }
               },

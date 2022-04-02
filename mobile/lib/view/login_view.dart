@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
                 margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
                 height: 100,
-                child: Image.asset('assets/images/loading.gif')),
+                child: Image.asset('assets/images/logo.png')),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
