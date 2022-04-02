@@ -43,6 +43,8 @@ dependencies:
   google_sign_in: ^5.2.4
   flutter_login: ^3.2.0
   flutter_swiper_null_safety: ^1.0.2
+  fluttertoast: ^8.0.9
+  firebase_auth: ^3.3.12
 
 dev_dependencies:
   flutter_test:

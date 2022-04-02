@@ -1,8 +1,13 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import '../firebase/firebase_auth.dart';
 
 import '../helpers/all_colors.dart';
+import '../helpers/toast_controller.dart';
+import 'image_upload.dart';
+import 'loading_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -15,9 +20,34 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
 
+  // Auth status for Firebase
+  var checkAuthStatus = false;
+
+  Future<void> checkFirebase() async {
+    checkAuthStatus = await checkAuth();
+    loadingDialog(context, 1,"none");
+    if (checkAuthStatus){
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ImageUploads()),
+      );
+    }
+    //statusText = getAuthVal(checkAuthStatus);
+  }
+
+  String getAuthVal(bool status) {
+    if (status == true) {
+      return "Signed in successfully";
+    } else {
+      return "Failed";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.all(16.0),
         height: double.infinity,
@@ -71,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                       Icons.person,
                       color: primaryTeal,
                     )),
-                hintText: "enter your email",
+                hintText: "Enter your email",
                 hintStyle: const TextStyle(color: Colors.white54),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -100,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                       Icons.lock,
                       color: primaryTeal,
                     )),
-                hintText: "enter your password",
+                hintText: "Enter your password",
                 hintStyle: const TextStyle(color: Colors.white54),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -118,21 +148,46 @@ class _LoginPageState extends State<LoginPage> {
                 textColor: primaryTeal,
                 padding: const EdgeInsets.all(20.0),
                 child: Text("Login".toUpperCase()),
-                onPressed: () {
-                  if (passwordController.text == "arda") {}
+                onPressed: () async {
+                  if (passwordController.text != "" ||
+                      emailController.text != "") {
+                    await signOut();
+                    loadingDialog(context, 1,"none");
+                    await signIn(emailController.text, passwordController.text);
+                    setState(() {
+                      checkFirebase();
+                    });
+
+                  } else {
+                    showToast("Please enter a password and e-mail");
+                  }
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0)),
               ),
             ),
-            const Spacer(),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 MaterialButton(
                   textColor: Colors.white70,
                   child: Text("Create Account".toUpperCase()),
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (passwordController.text != "" ||
+                        emailController.text != "") {
+                      if (passwordController.text.length < 6) {
+                        showToast(
+                            "Please enter a password longer than 6 character");
+                      } else {
+                        await signUp(
+                            emailController.text, passwordController.text);
+                        await Future.delayed(const Duration(seconds: 2));
+                      }
+                    } else {
+                      showToast("Please enter a password and e-mail");
+                    }
+                  },
                 ),
                 Container(
                   color: Colors.white54,
@@ -142,7 +197,9 @@ class _LoginPageState extends State<LoginPage> {
                 MaterialButton(
                   textColor: Colors.white70,
                   child: Text("Forgot Password".toUpperCase()),
-                  onPressed: () {},
+                  onPressed: () {
+                    loadingDialog(context, 1,"none");
+                  },
                 ),
               ],
             ),

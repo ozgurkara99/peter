@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:peter/view/image_upload.dart';
-import 'package:peter/view/login_view.dart';
-import 'package:peter/view/login_view.dart';
 import 'package:peter/view/onboarding.dart';
 import 'firebase_options.dart';
 import 'helpers/all_colors.dart';
