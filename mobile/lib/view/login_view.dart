@@ -186,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                   textColor: Colors.white70,
                   child: Text("Forgot Password".toUpperCase()),
                   onPressed: () {
-                    loadingDialog(context, 1, "feed");
+                    loadingDialog(context, 5, "pre-feed");
                   },
                 ),
               ],

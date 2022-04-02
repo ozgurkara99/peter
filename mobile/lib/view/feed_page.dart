@@ -4,31 +4,26 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:peter/helpers/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:peter/view/card_generator.dart';
 import 'package:peter/view/loading_dialog.dart';
-import '../firebase/firebase_firestore.dart';
 import '../helpers/device_details.dart';
 import '../helpers/get_date.dart';
 
 class FeedPage extends StatefulWidget {
+  final cardListAll;
+
+  const FeedPage({Key? key, this.cardListAll}) : super(key: key);
+
   @override
   State<FeedPage> createState() => _FeedPageState();
 }
 
 class _FeedPageState extends State<FeedPage> {
-  var petList = {};
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
   File? _photo;
   final ImagePicker _picker = ImagePicker();
-
-  @override
-  void initState() {
-    read_data();
-  }
 
   Future imgFromGallery(context) async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -54,12 +49,6 @@ class _FeedPageState extends State<FeedPage> {
         print('No image selected.');
       }
     });
-  }
-
-  Future<dynamic> read_data() async {
-    petList = await getData();
-    loadingDialog(context, 2, 'none');
-    list_generator(petList);
   }
 
   Future uploadFile() async {
@@ -158,6 +147,8 @@ class _FeedPageState extends State<FeedPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cardListAll2 = widget.cardListAll;
+
     return Scaffold(
       backgroundColor: Colors.teal[100],
       body: CustomScrollView(
@@ -240,7 +231,7 @@ class _FeedPageState extends State<FeedPage> {
           SliverList(
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
-              return _buildRooms(context, index);
+              return _buildRooms(context, index, widget.cardListAll);
             }, childCount: 10),
           )
         ],
@@ -248,8 +239,11 @@ class _FeedPageState extends State<FeedPage> {
     );
   }
 
-  Widget _buildRooms(BuildContext context, int index) {
-    var room = rooms[index % rooms.length];
+  Widget _buildRooms(BuildContext context, int index, cardL) {
+    print("sdfdsfg");
+    var room = cardL[index % cardL.length];
+    print(room);
+
     return Container(
       margin: const EdgeInsets.all(20.0),
       child: Container(
@@ -275,44 +269,29 @@ class _FeedPageState extends State<FeedPage> {
                             fit: BoxFit.cover,
                           ),
                           Positioned(
-                            right: 10,
-                            top: 10,
-                            child: Icon(
-                              Icons.star,
-                              color: Colors.grey.shade800,
-                              size: 20.0,
-                            ),
-                          ),
-                          const Positioned(
-                            right: 8,
-                            top: 8,
-                            child: Icon(
-                              Icons.star_border,
-                              color: Colors.white,
-                              size: 24.0,
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 20.0,
+                            top: 5.0,
                             right: 5.0,
-                            child: Container(
-                              padding: EdgeInsets.all(10.0),
-                              color: Colors.white,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    room['date'],
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  const Icon(
-                                    FontAwesomeIcons.clock,
-                                    size: 16,
-                                    color: primaryTeal,
-                                  ),
-                                ],
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Container(
+                                padding: EdgeInsets.all(10.0),
+                                color: Colors.white,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      room['date'],
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    SizedBox(
+                                      width: 3,
+                                    ),
+                                    const Icon(
+                                      FontAwesomeIcons.clock,
+                                      size: 16,
+                                      color: Colors.teal,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           )
@@ -323,15 +302,31 @@ class _FeedPageState extends State<FeedPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              room['title'],
-                              style: TextStyle(
-                                  fontSize: 18.0, fontWeight: FontWeight.bold),
+                            Row(
+                              children: [
+                                Text(
+                                  room['name'],
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Spacer(),
+                                Text(
+                                  "%${room['similarity'].toString()}",
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
                             const SizedBox(
                               height: 5.0,
                             ),
-                            const Text("Bouddha, Kathmandu"),
+                            Text(
+                              room['location'],
+                              style: TextStyle(
+                                  fontSize: 18.0, fontWeight: FontWeight.bold),
+                            ),
                             SizedBox(
                               height: 10.0,
                             ),
