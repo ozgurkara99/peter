@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../firebase/firebase_auth.dart';
 
-import '../helpers/all_colors.dart';
+import '../helpers/constants.dart';
 import '../helpers/toast_controller.dart';
 import 'loading_dialog.dart';
 

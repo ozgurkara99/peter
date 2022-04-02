@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:peter/view/feed.dart';
 import 'package:peter/view/onboarding.dart';
 import 'firebase_options.dart';
-import 'helpers/all_colors.dart';
+import 'helpers/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

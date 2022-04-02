@@ -3,18 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:peter/helpers/all_colors.dart';
-import 'package:peter/view/loading_dialog.dart';
+import 'package:peter/helpers/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../helpers/device_details.dart';
 import '../helpers/get_date.dart';
 
-final List rooms = [
-  {"image": "assets/images/t.png", "title": "Awesome room near Bouddha"},
-  {"image": "assets/images/02.jpg", "title": "Peaceful Room"},
-  {"image": "assets/images/03.jpg", "title": "Beautiful Room"},
-  {"image": "assets/images/04.jpg", "title": "Vintage room near Pashupatinath"},
-];
 
 class FeedPage extends StatefulWidget {
   @override
@@ -218,9 +211,9 @@ class _FeedPageState extends State<FeedPage> {
           ),
           SliverList(
             delegate:
-                SliverChildBuilderDelegate((BuildContext context, int index) {
+            SliverChildBuilderDelegate((BuildContext context, int index) {
               return _buildRooms(context, index);
-            }, childCount: 100),
+            }, childCount: 10),
           )
         ],
       ),
@@ -243,7 +236,10 @@ class _FeedPageState extends State<FeedPage> {
               children: <Widget>[
                 Stack(
                   children: <Widget>[
-                    Image.asset(room['image']),
+                    Image.network(
+                      room['imageURL'],
+                      fit: BoxFit.cover,
+                    ),
                     Positioned(
                       right: 10,
                       top: 10,
@@ -270,12 +266,16 @@ class _FeedPageState extends State<FeedPage> {
                         color: Colors.white,
                         child: Row(
                           children: [
-                            Text("18h"),
+                            Text(
+                              room['date'],
+                              style: TextStyle(fontSize: 12),
+                            ),
                             SizedBox(
                               width: 3,
                             ),
                             Icon(
                               FontAwesomeIcons.clock,
+                              size: 16,
                               color: primaryTeal,
                             ),
                           ],
