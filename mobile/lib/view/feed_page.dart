@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:peter/helpers/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:peter/view/card_generator.dart';
+import 'package:peter/view/loading_dialog.dart';
+import '../firebase/firebase_firestore.dart';
 import '../helpers/device_details.dart';
 import '../helpers/get_date.dart';
 
@@ -14,11 +18,17 @@ class FeedPage extends StatefulWidget {
 }
 
 class _FeedPageState extends State<FeedPage> {
+  var petList = {};
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
   File? _photo;
   final ImagePicker _picker = ImagePicker();
+
+  @override
+  void initState() {
+    read_data();
+  }
 
   Future imgFromGallery(context) async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -44,6 +54,12 @@ class _FeedPageState extends State<FeedPage> {
         print('No image selected.');
       }
     });
+  }
+
+  Future<dynamic> read_data() async {
+    petList = await getData();
+    loadingDialog(context, 2, 'none');
+    list_generator(petList);
   }
 
   Future uploadFile() async {
@@ -291,7 +307,7 @@ class _FeedPageState extends State<FeedPage> {
                                   SizedBox(
                                     width: 3,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     FontAwesomeIcons.clock,
                                     size: 16,
                                     color: primaryTeal,

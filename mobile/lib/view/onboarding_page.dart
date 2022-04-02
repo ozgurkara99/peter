@@ -6,9 +6,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
+import '../firebase/firebase_firestore.dart';
 import 'loading_dialog.dart';
-import 'login_view.dart';
-import 'login_view.dart';
 
 class OnboardingPage extends StatefulWidget {
   @override
@@ -47,6 +46,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     Image.asset('assets/images/04.jpg'),
     Image.asset('assets/images/05.jpg'),
   ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               icon: Icon(_currentIndex == colors.length - 1
                   ? Icons.check
                   : Icons.arrow_forward),
-              onPressed: () {
+              onPressed: () async {
                 if (_currentIndex != colors.length - 1) {
                   _controller.next();
                 } else {
