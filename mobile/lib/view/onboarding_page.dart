@@ -11,27 +11,27 @@ import 'loading_dialog.dart';
 import 'login_view.dart';
 import 'login_view.dart';
 
-class OnboardingView extends StatefulWidget {
+class OnboardingPage extends StatefulWidget {
   @override
-  _OnboardingViewState createState() => _OnboardingViewState();
+  _OnboardingPageState createState() => _OnboardingPageState();
 }
 
-class _OnboardingViewState extends State<OnboardingView> {
+class _OnboardingPageState extends State<OnboardingPage> {
   SwiperController _controller = SwiperController();
   int _currentIndex = 0;
   final List<String> titles = [
-    "Welcome",
-    "Awesome App",
-    "Flutter App",
-    "Flutter Appt",
-    "Flutter Appt",
+    "Welcome!",
+    "Finding your friend",
+    "Camera",
+    "QR Code",
+    "Feed",
   ];
   final List<String> subtitles = [
-    "Welcome to this awesome intro screen app.",
-    "This is an awesome app, of intro screen design",
-    "Flutter is awesome for app development",
-    "Flutter is awesome for app developmentb",
-    "Flutter is awesome for app developmentb",
+    "Welcome to Peter app!",
+    "Find your lost friend using Peter app!",
+    "Find lost pets only taking a photo of them!",
+    "Scan QR codes to learn more about pets!",
+    "Check feed to find your lost pet!",
   ];
   final List<Color> colors = [
     Colors.green.shade300,

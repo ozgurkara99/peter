@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> checkFirebase(isLoggedIn) async {
     checkAuthStatus = await checkAuth();
     if (checkAuthStatus && isLoggedIn) {
-      loadingDialog(context, 1, "image");
+      loadingDialog(context, 1, "feed");
     }
     //statusText = getAuthVal(checkAuthStatus);
   }

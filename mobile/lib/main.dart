@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:peter/view/feed.dart';
-import 'package:peter/view/onboarding.dart';
+import 'package:peter/view/feed_page.dart';
+import 'package:peter/view/onboarding_page.dart';
 import 'firebase_options.dart';
 import 'helpers/constants.dart';
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         secondaryHeaderColor: Colors.orange,
         hintColor: Colors.orange,
       ),
-      home: FeedPage(),
+      home: OnboardingPage(),
     );
   }
 }
