@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-import 'helpers/device_details.dart';
-import 'helpers/get_date.dart';
+import '../helpers/device_details.dart';
+import '../helpers/get_date.dart';
 
 class ImageUploads extends StatefulWidget {
   ImageUploads({Key? key}) : super(key: key);
