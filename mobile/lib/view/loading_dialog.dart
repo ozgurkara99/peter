@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:peter/view/feed_page.dart';
-import 'package:peter/view/image_upload.dart';
-
 import '../firebase/firebase_firestore.dart';
 import 'card_generator.dart';
 import 'login_view.dart';
@@ -60,15 +58,15 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
           MaterialPageRoute(
               builder: (context) => FeedPage(
                     cardListAll: cardList,
-                sim: false,
-              )));
+                    sim: false,
+                  )));
     } else if (next == "pre-feed") {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => FeedPage(
                     cardListAll: cardList,
-                sim: false,
+                    sim: false,
                   )));
     }
   });

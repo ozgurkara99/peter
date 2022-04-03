@@ -24,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
     if (checkAuthStatus && isLoggedIn) {
       loadingDialog(context, 3, "pre-feed");
     }
-    //statusText = getAuthVal(checkAuthStatus);
   }
 
   String getAuthVal(bool status) {
@@ -171,8 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                         await signUp(
                             emailController.text, passwordController.text);
                         await Future.delayed(const Duration(seconds: 2));
-                        showToast(
-                            "Account created successfully");
+                        showToast("Account created successfully");
                       }
                     } else {
                       showToast("Please enter a password and e-mail");
