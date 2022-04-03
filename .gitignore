@@ -249,10 +249,12 @@ app.*.symbols
 !/dev/ci/**/Gemfile.lock
 
 python/images_data
+python/firebase_images
 python/saved_images
 python/saved_images_bb
 python/bb_dataset
 python/data
+python/firebase_images_segmented
 drawio
 
 model.pb

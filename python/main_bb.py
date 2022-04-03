@@ -71,7 +71,8 @@ def get_prediction(img_path, confidence, width, height):
   pred_class = [COCO_CLASS_NAMES[i] for i in list(pred[0]['labels'].cpu().detach().numpy())]
   dog_index = pred_class.index("dog")
   masks = (pred[0]['masks']>0.5).squeeze().detach().cpu().numpy()
-  
+  if len(np.shape(masks)) == 2:
+    masks = np.expand_dims(masks, axis=0)
   masks = np.expand_dims(masks[dog_index], axis=0)
   
   pred_class = pred_class[:pred_t+1]
@@ -80,7 +81,7 @@ def get_prediction(img_path, confidence, width, height):
 
 
 
-def segment_instance(img_path, width, height, confidence=0.5):
+def segment_instance(img_path, width, height, dst, confidence=0.5):
   masks, pred_cls, img = get_prediction(img_path, confidence, width, height)
   print(pred_cls)
   x = np.asarray(img)
@@ -98,7 +99,7 @@ def segment_instance(img_path, width, height, confidence=0.5):
   # result = np.multiply(masks,x)
   result = x[top:bottom,left:right,:].astype(np.uint8)
   img_path = img_path.replace("\\", "/")
-  fp = os.path.join(args.dst_folder, img_path.split("/")[-1])
+  fp = os.path.join(dst, img_path.split("/")[-1])
 
   plt.imsave(fp, result)
 
@@ -107,17 +108,17 @@ def segment_instance(img_path, width, height, confidence=0.5):
 
 
 
-from os import listdir
-from os.path import isfile, join
-from tqdm import tqdm
+# from os import listdir
+# from os.path import isfile, join
+# from tqdm import tqdm
 
 
-onlyfiles = [f for f in listdir(args.img_folder) if isfile(join(args.img_folder, f))]
-onlyfiles_dst = [f for f in listdir(args.dst_folder) if isfile(join(args.dst_folder, f))]
-onlyfiles = list(set(onlyfiles) - set(onlyfiles_dst))
-for file in tqdm(onlyfiles):
-  try:
-    file_p = os.path.join(args.img_folder, file)
-    segment_instance(file_p, args.w, args.h, confidence=0.5)
-  except:
-    pass
+# onlyfiles = [f for f in listdir(args.img_folder) if isfile(join(args.img_folder, f))]
+# onlyfiles_dst = [f for f in listdir(args.dst_folder) if isfile(join(args.dst_folder, f))]
+# onlyfiles = list(set(onlyfiles) - set(onlyfiles_dst))
+# for file in tqdm(onlyfiles):
+#   try:
+#     file_p = os.path.join(args.img_folder, file)
+#     segment_instance(file_p, args.w, args.h, confidence=0.5)
+#   except:
+#     pass
