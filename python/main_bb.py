@@ -1,4 +1,5 @@
 from pydoc import apropos
+from re import M
 from PIL import Image
 import matplotlib.pyplot as plt
 import torch
@@ -16,8 +17,8 @@ import os
 argpar = argparse.ArgumentParser()
 argpar.add_argument("--w", type=int, default=256)
 argpar.add_argument("--h", type=int, default=256)
-argpar.add_argument("--img_folder", type=str, default="python/images/")
-argpar.add_argument("--dst_folder", type=str, default="python/images_real/")
+argpar.add_argument("--img_folder", type=str, default="python/images_data/deniz_dogs")
+argpar.add_argument("--dst_folder", type=str, default="python/images_data/dataset_256")
 args = argpar.parse_args()
 
 warnings.filterwarnings('ignore')
@@ -26,8 +27,6 @@ warnings.filterwarnings('ignore')
 model = torchvision.models.detection.maskrcnn_resnet50_fpn(pretrained=True).cuda()
 # set to evaluation mode
 model.eval()
-
-DST_FOLDER = args.dst_folder 
 
 if not os.path.exists(args.dst_folder):
   os.mkdir(args.dst_folder) 
@@ -72,7 +71,8 @@ def get_prediction(img_path, confidence, width, height):
   pred_class = [COCO_CLASS_NAMES[i] for i in list(pred[0]['labels'].cpu().detach().numpy())]
   dog_index = pred_class.index("dog")
   masks = (pred[0]['masks']>0.5).squeeze().detach().cpu().numpy()
-  
+  if len(np.shape(masks)) == 2:
+    masks = np.expand_dims(masks, axis=0)
   masks = np.expand_dims(masks[dog_index], axis=0)
   
   pred_class = pred_class[:pred_t+1]
@@ -81,33 +81,44 @@ def get_prediction(img_path, confidence, width, height):
 
 
 
-def segment_instance(img_path, width, height, confidence=0.5):
+def segment_instance(img_path, width, height, dst, confidence=0.5):
   masks, pred_cls, img = get_prediction(img_path, confidence, width, height)
   print(pred_cls)
   x = np.asarray(img)
   masks = masks.astype(int)
-  masks = np.moveaxis(masks, [0, 1, 2], [2, 0, 1])
-  masks = np.dstack([masks, masks, masks])
 
-  result = np.multiply(masks,x).astype(np.uint8)
+  masks_summed = np.sum(np.squeeze(masks,axis=0), axis = 1) # sum column by column
+  indices = np.nonzero(masks_summed)
+  top, bottom = indices[0][0], indices[0][-1]
+
+  masks_summed_2 = np.sum(np.squeeze(masks), axis = 0) # sum column by column
+  indices = np.nonzero(masks_summed_2)
+  left, right = indices[0][0], indices[0][-1]
+
+  # result = img[]
+  # result = np.multiply(masks,x)
+  result = x[top:bottom,left:right,:].astype(np.uint8)
   img_path = img_path.replace("\\", "/")
-  fp = os.path.join(DST_FOLDER, img_path.split("/")[-1])
+  fp = os.path.join(dst, img_path.split("/")[-1])
 
   plt.imsave(fp, result)
 
+  # plt.show()
 
 
-from os import listdir
-from os.path import isfile, join
-from tqdm import tqdm
 
 
-onlyfiles = [f for f in listdir(args.img_folder) if isfile(join(args.img_folder, f))]
-onlyfiles_dst = [f for f in listdir(DST_FOLDER) if isfile(join(DST_FOLDER, f))]
-onlyfiles = list(set(onlyfiles) - set(onlyfiles_dst))
-for file in tqdm(onlyfiles):
-  # try:
-  file_p = os.path.join(args.img_folder, file)
-  segment_instance(file_p, args.w, args.h, confidence=0.5)
-  # except:
-  #     pass
+# from os import listdir
+# from os.path import isfile, join
+# from tqdm import tqdm
+
+
+# onlyfiles = [f for f in listdir(args.img_folder) if isfile(join(args.img_folder, f))]
+# onlyfiles_dst = [f for f in listdir(args.dst_folder) if isfile(join(args.dst_folder, f))]
+# onlyfiles = list(set(onlyfiles) - set(onlyfiles_dst))
+# for file in tqdm(onlyfiles):
+#   try:
+#     file_p = os.path.join(args.img_folder, file)
+#     segment_instance(file_p, args.w, args.h, confidence=0.5)
+#   except:
+#     pass
