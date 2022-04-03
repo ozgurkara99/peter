@@ -12,7 +12,13 @@ import warnings
 import argparse
 import os
 
+def deneme(a):
+    if a < 0:
+        return True
+    else:
+        return False
 
+<<<<<<< HEAD
 argpar = argparse.ArgumentParser()
 argpar.add_argument("--w", type=int, default=256)
 argpar.add_argument("--h", type=int, default=256)
@@ -111,3 +117,18 @@ for file in tqdm(onlyfiles):
   segment_instance(file_p, args.w, args.h, confidence=0.5)
   # except:
   #     pass
+=======
+def main():
+    print("hello222333")
+    print("ozgurdenemeasdasads")
+    # exp2 = 
+    a = [-1,-2,3,4,5]
+    b = list(map(lambda x:x**2,a))
+    c = list(filter(deneme, a))
+    a 
+    print(a,c)
+    
+    
+if __name__ == "__main__":
+    main()
+>>>>>>> 9eac019d2b8717d7316329d5773318bbf6141728

@@ -53,6 +53,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '325922865044',
     projectId: 'aspava-yildiz',
     storageBucket: 'aspava-yildiz.appspot.com',
+<<<<<<< HEAD
+=======
+    androidClientId: '325922865044-15ipg6erpni9pecnqjd8vu1sm3np2mf4.apps.googleusercontent.com',
+>>>>>>> 9eac019d2b8717d7316329d5773318bbf6141728
     iosClientId: '325922865044-kve58fvhtbjsf9d36hng3kcj83ktd9j3.apps.googleusercontent.com',
     iosBundleId: 'com.aspava.yildiz',
   );
