@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:peter/view/navbar_view.dart';
 import 'package:peter/view/onboarding_page.dart';
 import 'firebase_options.dart';
 import 'helpers/constants.dart';

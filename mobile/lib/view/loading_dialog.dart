@@ -1,18 +1,24 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:peter/view/feed_page.dart';
+
 import 'package:peter/view/navbar_view.dart';
 import '../firebase/firebase_firestore.dart';
 import 'card_generator.dart';
 import 'login_view.dart';
 
-Future<dynamic> read_data() async {
-  var petList = await getData();
-  return list_generator(petList);
+Future<dynamic> readFinderFeedData() async {
+  var petList = await getFinderFeedData();
+  return finderListGenerator(petList);
 }
 
-var cardList;
+Future<dynamic> readAdopterFeedData() async {
+  var petList = await getAdopterFeedData();
+  return adopterListGenerator(petList);
+}
+
+var cardListFinder;
+var cardListAdopter;
 
 Future<void> loadingDialog(BuildContext context, int time, String next) async {
   showDialog(
@@ -26,7 +32,7 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
           child: Column(
             children: [
               Image.asset(
-                'assets/images/loading_transparent.gif',
+                'assets/images/loading.gif',
                 fit: BoxFit.fitWidth,
                 repeat: ImageRepeat.noRepeat,
               ),
@@ -38,10 +44,12 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
   );
 
   if (next == "pre-feed") {
-    cardList = await read_data();
+    cardListFinder = await readFinderFeedData();
+    cardListAdopter = await readAdopterFeedData();
     log("test-feed");
     Future.delayed(const Duration(seconds: 2), () {
-      log(cardList.toString());
+      log(cardListFinder.toString());
+      log(cardListAdopter.toString());
     });
   }
 
@@ -56,7 +64,8 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
           context,
           MaterialPageRoute(
               builder: (context) => NavbarFeed(
-                    cardListAll: cardList,
+                    cardListFinder: cardListFinder,
+                    cardListAdopter: cardListAdopter,
                     sim: false,
                   )));
     }

@@ -1,14 +1,18 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:peter/view/carer.dart';
 import 'package:peter/view/feed_page.dart';
 import 'package:peter/view/feed_page_adopter.dart';
 
 class NavbarFeed extends StatefulWidget {
-  final cardListAll;
+  final cardListFinder;
+  final cardListAdopter;
   final sim;
 
-  const NavbarFeed({Key? key, this.cardListAll, this.sim}) : super(key: key);
+  const NavbarFeed(
+      {Key? key, this.cardListFinder, this.cardListAdopter, this.sim})
+      : super(key: key);
 
   @override
   _NavbarFeedState createState() => _NavbarFeedState();
@@ -40,11 +44,15 @@ class _NavbarFeedState extends State<NavbarFeed> {
             setState(() => _currentIndex = index);
           },
           children: <Widget>[
-            FeedPageAdopter(cardListAll: widget.cardListAll, sim: widget.sim),
-            FeedPage(cardListAll: widget.cardListAll, sim: widget.sim),
-            Container(
-              color: Colors.blue,
-            ),
+            FeedPage(
+                cardListFinder: widget.cardListFinder,
+                cardListAdopter: widget.cardListAdopter,
+                sim: widget.sim),
+            FeedPageAdopter(
+                cardListFinder: widget.cardListFinder,
+                cardListAdopter: widget.cardListAdopter,
+                sim: widget.sim),
+            CarerPage(),
           ],
         ),
       ),
@@ -56,14 +64,14 @@ class _NavbarFeedState extends State<NavbarFeed> {
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-              title: Center(child: Text('Adopter')),
-              icon: Icon(FontAwesomeIcons.handHoldingHeart),
-              activeColor: Colors.orange,
-              inactiveColor: Colors.grey),
-          BottomNavyBarItem(
               title: Center(child: Text('Finder')),
               icon: Icon(FontAwesomeIcons.search),
               activeColor: Colors.teal,
+              inactiveColor: Colors.grey),
+          BottomNavyBarItem(
+              title: Center(child: Text('Adopter')),
+              icon: Icon(FontAwesomeIcons.handHoldingHeart),
+              activeColor: Colors.orange,
               inactiveColor: Colors.grey),
           BottomNavyBarItem(
               title: Center(child: Text('Carer')),

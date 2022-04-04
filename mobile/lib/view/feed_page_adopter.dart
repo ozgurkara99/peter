@@ -11,10 +11,12 @@ import '../helpers/device_details.dart';
 import '../helpers/get_date.dart';
 
 class FeedPageAdopter extends StatefulWidget {
-  final cardListAll;
+  final cardListFinder;
+  final cardListAdopter;
   final sim;
 
-  const FeedPageAdopter({Key? key, this.cardListAll, this.sim})
+  const FeedPageAdopter(
+      {Key? key, this.cardListFinder, this.cardListAdopter, this.sim})
       : super(key: key);
 
   @override
@@ -87,7 +89,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
     showToast("Image uploaded correctly");
     setState(() {
       var q = [];
-      var s = widget.cardListAll;
+      var s = widget.cardListAdopter;
       var s_l = <int>[];
       for (int i = 0; i < 6; i++) {
         s_l.add(s[i]['similarity']);
@@ -108,7 +110,8 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
           MaterialPageRoute(
               builder: (context) => FeedPageAdopter(
                     sim: true,
-                    cardListAll: q,
+                    cardListAdopter: q,
+                    cardListFinder: cardListFinder,
                   )));
     });
   }
@@ -181,8 +184,6 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
 
   @override
   Widget build(BuildContext context) {
-    final cardListAll2 = widget.cardListAll;
-
     return Scaffold(
       backgroundColor: Colors.orange[100],
       body: CustomScrollView(
@@ -248,7 +249,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
               return _buildRooms(
-                  context, index, widget.cardListAll, widget.sim);
+                  context, index, widget.cardListAdopter, widget.sim);
             }, childCount: 6),
           )
         ],
@@ -303,7 +304,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
                                     const Icon(
                                       FontAwesomeIcons.clock,
                                       size: 16,
-                                      color: Colors.teal,
+                                      color: Colors.orange,
                                     ),
                                   ],
                                 ),
@@ -328,8 +329,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
                                 Spacer(),
                                 ElevatedButton.icon(
                                   style: ElevatedButton.styleFrom(
-                                      primary: Colors.orange
-                                  ) ,
+                                      primary: Colors.orange),
                                   onPressed: () {},
                                   icon: Icon(
                                     FontAwesomeIcons.infoCircle,

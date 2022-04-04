@@ -6,16 +6,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:peter/helpers/toast_controller.dart';
-import 'package:peter/view/loading_dialog.dart';
 import 'package:peter/view/navbar_view.dart';
 import '../helpers/device_details.dart';
 import '../helpers/get_date.dart';
 
 class FeedPage extends StatefulWidget {
-  final cardListAll;
+  final cardListFinder;
+  final cardListAdopter;
   final sim;
 
-  const FeedPage({Key? key, this.cardListAll, this.sim}) : super(key: key);
+  const FeedPage(
+      {Key? key, this.cardListFinder, this.cardListAdopter, this.sim})
+      : super(key: key);
 
   @override
   State<FeedPage> createState() => _FeedPageState();
@@ -87,7 +89,7 @@ class _FeedPageState extends State<FeedPage> {
     showToast("Image uploaded correctly");
     setState(() {
       var q = [];
-      var s = widget.cardListAll;
+      var s = widget.cardListFinder;
       var s_l = <int>[];
       for (int i = 0; i < 6; i++) {
         s_l.add(s[i]['similarity']);
@@ -108,7 +110,8 @@ class _FeedPageState extends State<FeedPage> {
           MaterialPageRoute(
               builder: (context) => NavbarFeed(
                     sim: true,
-                    cardListAll: q,
+                    cardListFinder: q,
+                    cardListAdopter: widget.cardListAdopter,
                   )));
     });
   }
@@ -181,8 +184,6 @@ class _FeedPageState extends State<FeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    final cardListAll2 = widget.cardListAll;
-
     return Scaffold(
       backgroundColor: Colors.teal[100],
       body: CustomScrollView(
@@ -266,7 +267,7 @@ class _FeedPageState extends State<FeedPage> {
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
               return _buildRooms(
-                  context, index, widget.cardListAll, widget.sim);
+                  context, index, widget.cardListFinder, widget.sim);
             }, childCount: 6),
           )
         ],
@@ -376,8 +377,7 @@ class _FeedPageState extends State<FeedPage> {
                                 Spacer(),
                                 ElevatedButton.icon(
                                   style: ElevatedButton.styleFrom(
-                                    primary: Colors.teal
-                                  ) ,
+                                      primary: Colors.teal),
                                   onPressed: () {},
                                   icon: Icon(
                                     FontAwesomeIcons.infoCircle,
