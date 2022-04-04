@@ -17,7 +17,6 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
   showDialog(
     context: context,
     barrierDismissible: false,
-    //  barrierColor: Colors.transparent,
     builder: (BuildContext context) {
       return Dialog(
         child: Container(
@@ -40,7 +39,7 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
   if (next == "pre-feed") {
     cardList = await read_data();
     log("test-feed");
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       log(cardList.toString());
     });
   }

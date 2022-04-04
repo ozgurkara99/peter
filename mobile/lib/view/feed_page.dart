@@ -70,7 +70,9 @@ class _FeedPageState extends State<FeedPage> {
     final date = getDateInString();
 
     //final destination = '$os/$brand/$id';
-    final destination = 'dog/';
+
+    // Only for dog
+    const destination = 'dog/';
 
     try {
       final ref = firebase_storage.FirebaseStorage.instance
@@ -312,7 +314,7 @@ class _FeedPageState extends State<FeedPage> {
                                       room['date'],
                                       style: TextStyle(fontSize: 12),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 3,
                                     ),
                                     const Icon(
@@ -471,7 +473,7 @@ class _CategoryState extends State<Category> {
               widget.icon,
               color: Colors.white,
             ),
-            SizedBox(
+            const SizedBox(
               height: 5.0,
             ),
             Text(widget.title, style: TextStyle(color: Colors.white))
