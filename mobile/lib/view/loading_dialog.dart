@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:peter/view/feed_page.dart';
+import 'package:peter/view/navbar_view.dart';
 import '../firebase/firebase_firestore.dart';
 import 'card_generator.dart';
 import 'login_view.dart';
@@ -50,20 +51,11 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
     } else if (next == "login") {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
-    } //pop dialog
-    else if (next == "feed") {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => FeedPage(
-                    cardListAll: cardList,
-                    sim: false,
-                  )));
     } else if (next == "pre-feed") {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => FeedPage(
+              builder: (context) => NavbarFeed(
                     cardListAll: cardList,
                     sim: false,
                   )));
