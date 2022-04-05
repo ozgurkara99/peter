@@ -419,7 +419,7 @@ class _FeedPageState extends State<FeedPage> {
                                   style: TextStyle(color: Colors.black),
                                 ),
                                 SizedBox(
-                                  width: 2.0,
+                                  width: 7.0,
                                 ),
                                 Icon(
                                   FontAwesomeIcons.solidCheckCircle,
@@ -437,7 +437,7 @@ class _FeedPageState extends State<FeedPage> {
                                   style: TextStyle(color: Colors.black),
                                 ),
                                 SizedBox(
-                                  width: 2.0,
+                                  width: 7.0,
                                 ),
                                 Icon(
                                   FontAwesomeIcons.solidTimesCircle,

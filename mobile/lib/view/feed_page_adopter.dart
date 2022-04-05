@@ -191,7 +191,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
         slivers: <Widget>[
           SliverAppBar(
             expandedHeight: 180.0,
-            backgroundColor: Colors.orange,
+            backgroundColor: secondaryOrange,
             leading: IconButton(
               icon: const Icon(
                 FontAwesomeIcons.user,
@@ -260,7 +260,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
                 SliverChildBuilderDelegate((BuildContext context, int index) {
               return _buildRooms(
                   context, index, widget.cardListAdopter, widget.sim);
-            }, childCount: 6),
+            }, childCount: 5),
           )
         ],
       ),
@@ -281,7 +281,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
               child: Material(
                 elevation: 5.0,
                 borderRadius: BorderRadius.circular(5.0),
-                color: Colors.teal[200],
+                color: Colors.teal[100],
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -308,10 +308,10 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
                                   const SizedBox(
                                     width: 3,
                                   ),
-                                  const Icon(
+                                  Icon(
                                     FontAwesomeIcons.clock,
                                     size: 16,
-                                    color: Colors.orange,
+                                    color: secondaryOrange,
                                   ),
                                 ],
                               ),
@@ -336,7 +336,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
                               Spacer(),
                               ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
-                                    primary: Colors.orange),
+                                    primary: secondaryOrange),
                                 onPressed: () {},
                                 icon: Icon(
                                   FontAwesomeIcons.infoCircle,
@@ -366,7 +366,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
                                   style: TextStyle(color: Colors.black),
                                 ),
                                 SizedBox(
-                                  width: 2.0,
+                                  width: 7.0,
                                 ),
                                 Icon(
                                   FontAwesomeIcons.solidCheckCircle,
@@ -384,7 +384,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
                                   style: TextStyle(color: Colors.black),
                                 ),
                                 SizedBox(
-                                  width: 2.0,
+                                  width: 7.0,
                                 ),
                                 Icon(
                                   FontAwesomeIcons.solidTimesCircle,

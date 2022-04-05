@@ -49,7 +49,7 @@ class CarerPage extends StatelessWidget {
                     Spacer(),
                     IconButton(
                       color: Colors.pink[50],
-                      icon: Icon(Icons.favorite_border),
+                      icon: Icon(Icons.settings),
                       onPressed: () {},
                     )
                   ],
