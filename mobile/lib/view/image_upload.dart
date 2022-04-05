@@ -179,7 +179,6 @@ class _ImageUploadsState extends State<ImageUploads> {
       ],
     );
 
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {

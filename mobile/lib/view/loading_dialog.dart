@@ -1,25 +1,29 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:peter/view/feed_page.dart';
-import 'package:peter/view/image_upload.dart';
 
+import 'package:peter/view/navbar_view.dart';
 import '../firebase/firebase_firestore.dart';
 import 'card_generator.dart';
 import 'login_view.dart';
 
-Future<dynamic> read_data() async {
-  var petList = await getData();
-  return list_generator(petList);
+Future<dynamic> readFinderFeedData() async {
+  var petList = await getFinderFeedData();
+  return finderListGenerator(petList);
 }
 
-var cardList;
+Future<dynamic> readAdopterFeedData() async {
+  var petList = await getAdopterFeedData();
+  return adopterListGenerator(petList);
+}
+
+var cardListFinder;
+var cardListAdopter;
 
 Future<void> loadingDialog(BuildContext context, int time, String next) async {
   showDialog(
     context: context,
     barrierDismissible: false,
-    //  barrierColor: Colors.transparent,
     builder: (BuildContext context) {
       return Dialog(
         child: Container(
@@ -28,7 +32,7 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
           child: Column(
             children: [
               Image.asset(
-                'assets/images/loading_transparent.gif',
+                'assets/images/loading.gif',
                 fit: BoxFit.fitWidth,
                 repeat: ImageRepeat.noRepeat,
               ),
@@ -40,10 +44,12 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
   );
 
   if (next == "pre-feed") {
-    cardList = await read_data();
+    cardListFinder = await readFinderFeedData();
+    cardListAdopter = await readAdopterFeedData();
     log("test-feed");
-    Future.delayed(Duration(seconds: 2), () {
-      log(cardList.toString());
+    Future.delayed(const Duration(seconds: 2), () {
+      log(cardListFinder.toString());
+      log(cardListAdopter.toString());
     });
   }
 
@@ -53,22 +59,14 @@ Future<void> loadingDialog(BuildContext context, int time, String next) async {
     } else if (next == "login") {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
-    } //pop dialog
-    else if (next == "feed") {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => FeedPage(
-                    cardListAll: cardList,
-                sim: false,
-              )));
     } else if (next == "pre-feed") {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => FeedPage(
-                    cardListAll: cardList,
-                sim: false,
+              builder: (context) => NavbarFeed(
+                    cardListFinder: cardListFinder,
+                    cardListAdopter: cardListAdopter,
+                    sim: false,
                   )));
     }
   });

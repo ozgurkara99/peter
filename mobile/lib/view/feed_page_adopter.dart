@@ -5,26 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:peter/helpers/constants.dart';
 import 'package:peter/helpers/toast_controller.dart';
-import 'package:peter/view/navbar_view.dart';
+import 'package:peter/view/loading_dialog.dart';
+import '../helpers/constants.dart';
 import '../helpers/device_details.dart';
 import '../helpers/get_date.dart';
 
-class FeedPage extends StatefulWidget {
+class FeedPageAdopter extends StatefulWidget {
   final cardListFinder;
   final cardListAdopter;
   final sim;
 
-  const FeedPage(
+  const FeedPageAdopter(
       {Key? key, this.cardListFinder, this.cardListAdopter, this.sim})
       : super(key: key);
 
   @override
-  State<FeedPage> createState() => _FeedPageState();
+  State<FeedPageAdopter> createState() => _FeedPageAdopterState();
 }
 
-class _FeedPageState extends State<FeedPage> {
+class _FeedPageAdopterState extends State<FeedPageAdopter> {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
@@ -90,7 +90,7 @@ class _FeedPageState extends State<FeedPage> {
     showToast("Image uploaded correctly");
     setState(() {
       var q = [];
-      var s = widget.cardListFinder;
+      var s = widget.cardListAdopter;
       var s_l = <int>[];
       for (int i = 0; i < 6; i++) {
         s_l.add(s[i]['similarity']);
@@ -109,10 +109,10 @@ class _FeedPageState extends State<FeedPage> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => NavbarFeed(
+              builder: (context) => FeedPageAdopter(
                     sim: true,
-                    cardListFinder: q,
-                    cardListAdopter: widget.cardListAdopter,
+                    cardListAdopter: q,
+                    cardListFinder: cardListFinder,
                   )));
     });
   }
@@ -191,7 +191,7 @@ class _FeedPageState extends State<FeedPage> {
         slivers: <Widget>[
           SliverAppBar(
             expandedHeight: 180.0,
-            backgroundColor: Colors.teal,
+            backgroundColor: secondaryOrange,
             leading: IconButton(
               icon: const Icon(
                 FontAwesomeIcons.user,
@@ -199,7 +199,6 @@ class _FeedPageState extends State<FeedPage> {
               ),
               onPressed: () {},
             ),
-            floating: true,
             actions: <Widget>[
               IconButton(
                 icon: Icon(
@@ -209,6 +208,7 @@ class _FeedPageState extends State<FeedPage> {
                 onPressed: () {},
               ),
             ],
+            floating: true,
             flexibleSpace: ListView(
               children: <Widget>[
                 const SizedBox(
@@ -217,49 +217,31 @@ class _FeedPageState extends State<FeedPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    Text("Find your Pet using",
+                    Text("Adopt your Pet using",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0)),
-                    Text(" Finder",
+                    Text(" Adopter",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Colors.orange,
+                            color: Colors.teal,
                             fontWeight: FontWeight.bold,
                             fontSize: 25.0)),
                   ],
                 ),
                 Container(
                   padding: EdgeInsets.all(5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          FontAwesomeIcons.camera,
-                          color: Colors.white,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          showPicker(context);
-                        },
-                      ),
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          FontAwesomeIcons.qrcode,
-                          color: Colors.white,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          showPicker(context);
-                        },
-                      ),
-                    ],
+                  child: IconButton(
+                    icon: const Icon(
+                      FontAwesomeIcons.camera,
+                      color: Colors.white,
+                      size: 40,
+                    ),
+                    onPressed: () {
+                      showPicker(context);
+                    },
                   ),
                 ),
               ],
@@ -277,8 +259,8 @@ class _FeedPageState extends State<FeedPage> {
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
               return _buildRooms(
-                  context, index, widget.cardListFinder, widget.sim);
-            }, childCount: 6),
+                  context, index, widget.cardListAdopter, widget.sim);
+            }, childCount: 5),
           )
         ],
       ),
@@ -309,36 +291,6 @@ class _FeedPageState extends State<FeedPage> {
                           room['imageURL'],
                           fit: BoxFit.cover,
                         ),
-                        if (sim == true)
-                          Positioned(
-                            top: 5.0,
-                            left: 5.0,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Container(
-                                padding: EdgeInsets.all(10.0),
-                                color: Colors.white,
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      FontAwesomeIcons.percentage,
-                                      size: 20,
-                                      color: Colors.teal,
-                                    ),
-                                    Text(
-                                      room['similarity'].toString(),
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(
-                                      width: 3,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
                         Positioned(
                           top: 5.0,
                           right: 5.0,
@@ -356,10 +308,10 @@ class _FeedPageState extends State<FeedPage> {
                                   const SizedBox(
                                     width: 3,
                                   ),
-                                  const Icon(
+                                  Icon(
                                     FontAwesomeIcons.clock,
                                     size: 16,
-                                    color: Colors.teal,
+                                    color: secondaryOrange,
                                   ),
                                 ],
                               ),
@@ -384,28 +336,23 @@ class _FeedPageState extends State<FeedPage> {
                               Spacer(),
                               ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
-                                    primary: Colors.teal),
+                                    primary: secondaryOrange),
                                 onPressed: () {},
                                 icon: Icon(
                                   FontAwesomeIcons.infoCircle,
                                   size: 24.0,
                                 ),
-                                label: Text('Info'), // <-- Text
+                                label: Text('Adopt'), // <-- Text
                               ),
                             ],
                           ),
                           const SizedBox(
                             height: 5.0,
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                room['location'],
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                          Text(
+                            room['location'],
+                            style: TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 10.0,
