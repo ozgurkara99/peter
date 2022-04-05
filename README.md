@@ -28,7 +28,8 @@ Adopt a new pet, using “Pet Adopter”. Save the lives of many animals. Help t
 
 ## Server Installation
 
-- Create Conda Python environment using ```conda capacity-checker```
+- Create Conda Python environment using ```conda create -n peter```
+- Activate the environment ```conda activate peter```
 - Inside the environment, install requirements ```pip install -r requirements.txt```
 - Modify _necessary parameters_ inside **run.py**
 - Run ```python peter_main.py```
