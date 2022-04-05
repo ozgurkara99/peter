@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:peter/helpers/constants.dart';
 import 'package:peter/helpers/toast_controller.dart';
 import 'package:peter/view/navbar_view.dart';
 import '../helpers/device_details.dart';
@@ -185,7 +186,7 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal[100],
+      backgroundColor: beige,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -199,6 +200,15 @@ class _FeedPageState extends State<FeedPage> {
               onPressed: () {},
             ),
             floating: true,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.bars,
+                  color: Colors.white,
+                ),
+                onPressed: () {},
+              ),
+            ],
             flexibleSpace: ListView(
               children: <Widget>[
                 const SizedBox(
@@ -213,7 +223,7 @@ class _FeedPageState extends State<FeedPage> {
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0)),
-                    Text(" Peter",
+                    Text(" Finder",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.orange,
@@ -284,57 +294,25 @@ class _FeedPageState extends State<FeedPage> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15.0),
           child: Container(
-            color: Colors.black,
             padding: EdgeInsets.all(3.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Container(
-                child: Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.circular(5.0),
-                  color: Colors.orange[300],
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Stack(
-                        children: <Widget>[
-                          Image.network(
-                            room['imageURL'],
-                            fit: BoxFit.cover,
-                          ),
-                          if (sim == true)
-                            Positioned(
-                              top: 5.0,
-                              left: 5.0,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  color: Colors.white,
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        FontAwesomeIcons.percentage,
-                                        size: 20,
-                                        color: Colors.teal,
-                                      ),
-                                      Text(
-                                        room['similarity'].toString(),
-                                        style: TextStyle(
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(
-                                        width: 3,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+            child: Container(
+              child: Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.circular(5.0),
+                color: Colors.teal[100],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Stack(
+                      children: <Widget>[
+                        Image.network(
+                          room['imageURL'],
+                          fit: BoxFit.cover,
+                        ),
+                        if (sim == true)
                           Positioned(
                             top: 5.0,
-                            right: 5.0,
+                            left: 5.0,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Container(
@@ -342,108 +320,136 @@ class _FeedPageState extends State<FeedPage> {
                                 color: Colors.white,
                                 child: Row(
                                   children: [
+                                    const Icon(
+                                      FontAwesomeIcons.percentage,
+                                      size: 20,
+                                      color: Colors.teal,
+                                    ),
                                     Text(
-                                      room['date'],
-                                      style: TextStyle(fontSize: 12),
+                                      room['similarity'].toString(),
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(
                                       width: 3,
-                                    ),
-                                    const Icon(
-                                      FontAwesomeIcons.clock,
-                                      size: 16,
-                                      color: Colors.teal,
                                     ),
                                   ],
                                 ),
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: [
-                                Text(
-                                  room['name'],
-                                  style: TextStyle(
-                                      fontSize: 25.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Spacer(),
-                                ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.teal),
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    FontAwesomeIcons.infoCircle,
-                                    size: 24.0,
-                                  ),
-                                  label: Text('Info'), // <-- Text
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5.0,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  room['location'],
-                                  style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            if (room['vaccinated'])
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: const <Widget>[
+                          ),
+                        Positioned(
+                          top: 5.0,
+                          right: 5.0,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              padding: EdgeInsets.all(10.0),
+                              color: Colors.white,
+                              child: Row(
+                                children: [
                                   Text(
-                                    "Vaccinated:",
-                                    style: TextStyle(color: Colors.black),
+                                    room['date'],
+                                    style: TextStyle(fontSize: 12),
                                   ),
-                                  SizedBox(
-                                    width: 2.0,
+                                  const SizedBox(
+                                    width: 3,
                                   ),
-                                  Icon(
-                                    FontAwesomeIcons.solidCheckCircle,
-                                    size: 20,
-                                    color: Colors.green,
+                                  const Icon(
+                                    FontAwesomeIcons.clock,
+                                    size: 16,
+                                    color: Colors.teal,
                                   ),
                                 ],
                               ),
-                            if (!room['vaccinated'])
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: const <Widget>[
-                                  Text(
-                                    "Vaccinated:",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  SizedBox(
-                                    width: 2.0,
-                                  ),
-                                  Icon(
-                                    FontAwesomeIcons.solidTimesCircle,
-                                    size: 20,
-                                    color: Colors.red,
-                                  ),
-                                ],
-                              )
-                          ],
-                        ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              Text(
+                                room['name'],
+                                style: TextStyle(
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Spacer(),
+                              ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.teal),
+                                onPressed: () {},
+                                icon: Icon(
+                                  FontAwesomeIcons.infoCircle,
+                                  size: 24.0,
+                                ),
+                                label: Text('Info'), // <-- Text
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                room['location'],
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          if (room['vaccinated'])
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: const <Widget>[
+                                Text(
+                                  "Vaccinated:",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                SizedBox(
+                                  width: 2.0,
+                                ),
+                                Icon(
+                                  FontAwesomeIcons.solidCheckCircle,
+                                  size: 20,
+                                  color: Colors.green,
+                                ),
+                              ],
+                            ),
+                          if (!room['vaccinated'])
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: const <Widget>[
+                                Text(
+                                  "Vaccinated:",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                SizedBox(
+                                  width: 2.0,
+                                ),
+                                Icon(
+                                  FontAwesomeIcons.solidTimesCircle,
+                                  size: 20,
+                                  color: Colors.red,
+                                ),
+                              ],
+                            )
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -458,12 +464,12 @@ class _FeedPageState extends State<FeedPage> {
       height: 85,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
+        children: <Widget>[
           SizedBox(
             width: 15.0,
           ),
           Category(
-            backgroundColor: Colors.pink,
+            backgroundColor: pinkButton,
             icon: FontAwesomeIcons.dog,
             title: "Dog",
           ),
@@ -471,7 +477,7 @@ class _FeedPageState extends State<FeedPage> {
             width: 15.0,
           ),
           Category(
-            backgroundColor: Colors.pink,
+            backgroundColor: pinkButton,
             title: "Cat",
             icon: FontAwesomeIcons.cat,
           ),

@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:peter/helpers/toast_controller.dart';
 import 'package:peter/view/loading_dialog.dart';
+import '../helpers/constants.dart';
 import '../helpers/device_details.dart';
 import '../helpers/get_date.dart';
 
@@ -185,7 +186,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[100],
+      backgroundColor: beige,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -198,6 +199,15 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
               ),
               onPressed: () {},
             ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.bars,
+                  color: Colors.white,
+                ),
+                onPressed: () {},
+              ),
+            ],
             floating: true,
             flexibleSpace: ListView(
               children: <Widget>[
@@ -213,7 +223,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0)),
-                    Text(" Peter",
+                    Text(" Adopter",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.teal,
@@ -266,131 +276,127 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15.0),
           child: Container(
-            color: Colors.black,
             padding: EdgeInsets.all(3.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Container(
-                child: Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.circular(5.0),
-                  color: Colors.teal[200],
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Stack(
-                        children: <Widget>[
-                          Image.network(
-                            room['imageURL'],
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                            top: 5.0,
-                            right: 5.0,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Container(
-                                padding: EdgeInsets.all(10.0),
-                                color: Colors.white,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      room['date'],
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                    const SizedBox(
-                                      width: 3,
-                                    ),
-                                    const Icon(
-                                      FontAwesomeIcons.clock,
-                                      size: 16,
-                                      color: Colors.orange,
-                                    ),
-                                  ],
-                                ),
+            child: Container(
+              child: Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.circular(5.0),
+                color: Colors.teal[200],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Stack(
+                      children: <Widget>[
+                        Image.network(
+                          room['imageURL'],
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          top: 5.0,
+                          right: 5.0,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              padding: EdgeInsets.all(10.0),
+                              color: Colors.white,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    room['date'],
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  const SizedBox(
+                                    width: 3,
+                                  ),
+                                  const Icon(
+                                    FontAwesomeIcons.clock,
+                                    size: 16,
+                                    color: Colors.orange,
+                                  ),
+                                ],
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: [
-                                Text(
-                                  room['name'],
-                                  style: TextStyle(
-                                      fontSize: 25.0,
-                                      fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              Text(
+                                room['name'],
+                                style: TextStyle(
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Spacer(),
+                              ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.orange),
+                                onPressed: () {},
+                                icon: Icon(
+                                  FontAwesomeIcons.infoCircle,
+                                  size: 24.0,
                                 ),
-                                Spacer(),
-                                ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.orange),
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    FontAwesomeIcons.infoCircle,
-                                    size: 24.0,
-                                  ),
-                                  label: Text('Adopt'), // <-- Text
+                                label: Text('Adopt'), // <-- Text
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          Text(
+                            room['location'],
+                            style: TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          if (room['vaccinated'])
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: const <Widget>[
+                                Text(
+                                  "Vaccinated:",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                SizedBox(
+                                  width: 2.0,
+                                ),
+                                Icon(
+                                  FontAwesomeIcons.solidCheckCircle,
+                                  size: 20,
+                                  color: Colors.green,
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 5.0,
-                            ),
-                            Text(
-                              room['location'],
-                              style: TextStyle(
-                                  fontSize: 18.0, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            if (room['vaccinated'])
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: const <Widget>[
-                                  Text(
-                                    "Vaccinated:",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  SizedBox(
-                                    width: 2.0,
-                                  ),
-                                  Icon(
-                                    FontAwesomeIcons.solidCheckCircle,
-                                    size: 20,
-                                    color: Colors.green,
-                                  ),
-                                ],
-                              ),
-                            if (!room['vaccinated'])
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: const <Widget>[
-                                  Text(
-                                    "Vaccinated:",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  SizedBox(
-                                    width: 2.0,
-                                  ),
-                                  Icon(
-                                    FontAwesomeIcons.solidTimesCircle,
-                                    size: 20,
-                                    color: Colors.red,
-                                  ),
-                                ],
-                              )
-                          ],
-                        ),
+                          if (!room['vaccinated'])
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: const <Widget>[
+                                Text(
+                                  "Vaccinated:",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                SizedBox(
+                                  width: 2.0,
+                                ),
+                                Icon(
+                                  FontAwesomeIcons.solidTimesCircle,
+                                  size: 20,
+                                  color: Colors.red,
+                                ),
+                              ],
+                            )
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -405,12 +411,12 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
       height: 85,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
+        children: <Widget>[
           SizedBox(
             width: 15.0,
           ),
           Category(
-            backgroundColor: Colors.pink,
+            backgroundColor: pinkButton,
             icon: FontAwesomeIcons.dog,
             title: "Dog",
           ),
@@ -418,7 +424,7 @@ class _FeedPageAdopterState extends State<FeedPageAdopter> {
             width: 15.0,
           ),
           Category(
-            backgroundColor: Colors.pink,
+            backgroundColor: pinkButton,
             title: "Cat",
             icon: FontAwesomeIcons.cat,
           ),
