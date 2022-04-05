@@ -1,8 +1,8 @@
 # Peter
+<img src="https://user-images.githubusercontent.com/69303698/161823151-ca05bec5-ba67-40e9-8b80-4e09f9c86447.png" width="96">
 
-![logo transparent 11](https://user-images.githubusercontent.com/69303698/161823151-ca05bec5-ba67-40e9-8b80-4e09f9c86447.png)
-
-### PetFinder & PetCarer & PetAdopter
+### Video Demo [YouTube]
+[![Peter Demo](https://img.youtube.com/vi/OapeyNLWvjo/0.jpg)](https://www.youtube.com/watch?v=OapeyNLWvjo)
 
 
 ## Server Installation
@@ -15,6 +15,7 @@
 
 ## Flutter Installation
 
+#### PetFinder & PetCarer & PetAdopter
 
 
 
