@@ -247,3 +247,14 @@ app.*.symbols
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
+
+python/images_data
+python/firebase_images
+python/saved_images
+python/saved_images_bb
+python/bb_dataset
+python/data
+python/firebase_images_segmented
+drawio
+
+model.pb

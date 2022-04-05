@@ -1,3 +1,16 @@
+from pydoc import apropos
+from PIL import Image
+import matplotlib.pyplot as plt
+import torch
+import torchvision.transforms as T
+import torchvision
+import numpy as np
+
+import cv2
+import random
+import warnings
+import argparse
+import os
 
 def deneme(a):
     if a < 0:
